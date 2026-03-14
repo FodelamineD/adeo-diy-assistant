@@ -1,0 +1,13 @@
+Structure du dossier pour le volume Windows
+Le numéro de série du volume est E430-D3A8
+C:.
+¦   main.py
+¦   src.txt
+¦   
++---agents
+¦       graph.py
+¦       
++---tools
+        search.py
+        stock.py
+        
