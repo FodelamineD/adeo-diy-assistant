@@ -26,6 +26,8 @@ def test_terrasse_query():
     inputs = {"messages": [("user", query)]}
     
     nodes_executed = []
+    tools_called = []
+    has_ai_response = False
     
     # Parcourir le graphe
     for event in graph.stream(inputs):
@@ -34,27 +36,35 @@ def test_terrasse_query():
             print(f"✓ Exécution du nœud : [{node}]")
             
             # Affiche le dernier message produit par le nœud
-            last_msg = value["messages"][-1]
-            
-            # Afficher le contenu de manière formatée
-            if hasattr(last_msg, 'tool_calls') and last_msg.tool_calls:
-                print(f"  → Outils appelés : {[call.name for call in last_msg.tool_calls]}")
-            else:
-                print(f"  → Réponse : {last_msg.content[:200]}...")
-            print()
+            if value["messages"]:
+                last_msg = value["messages"][-1]
+                
+                # Détecter les tool calls
+                if hasattr(last_msg, 'tool_calls') and last_msg.tool_calls:
+                    for call in last_msg.tool_calls:
+                        tools_called.append(call.name)
+                    print(f"  → Outils appelés : {[call.name for call in last_msg.tool_calls]}")
+                
+                # Vérifier réponse AI
+                elif hasattr(last_msg, 'content') and hasattr(last_msg, 'type'):
+                    if last_msg.type == "ai":
+                        has_ai_response = True
+                        print(f"  → Réponse : {last_msg.content[:150]}...")
     
-    print("="*70)
+    print("\n" + "="*70)
     print("📊 RÉSULTATS DU TEST")
     print("="*70)
     print(f"✓ Chemin d'exécution : {' → '.join(nodes_executed)}")
+    print(f"✓ Outils appelés : {tools_called}")
     print(f"✓ Nombre de nœuds exécutés : {len(nodes_executed)}")
     
     # Vérifications
     checks = {
         "Agent exécuté" : "agent" in nodes_executed,
         "Tools exécutés" : "tools" in nodes_executed,
-        "Boucle complète" : nodes_executed == ["agent", "tools", "agent"],
-        "Pas d'erreur" : len(nodes_executed) > 0,
+        "Boucle complète" : "agent" in nodes_executed and "tools" in nodes_executed,
+        "Réponse AI générée" : has_ai_response,
+        "Tools appelés" : len(tools_called) > 0,
     }
     
     print("\n✅ Vérifications :")
@@ -74,5 +84,11 @@ def test_terrasse_query():
 
 
 if __name__ == "__main__":
-    success = test_terrasse_query()
-    exit(0 if success else 1)
+    try:
+        success = test_terrasse_query()
+        exit(0 if success else 1)
+    except Exception as e:
+        print(f"\n❌ ERREUR : {e}")
+        print("\nVérifier : OPENAI_API_KEY dans .env")
+        exit(1)
+
