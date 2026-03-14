@@ -5,3 +5,12 @@ langchain-text-splitters
 langchain-core
 python-dotenv
 faiss-cpu
+
+# --- Serving (Le Guichet) ---
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+
+# --- MLOps (Sprint 3) - Décommenter après Sprint 2 ---
+# zenml
