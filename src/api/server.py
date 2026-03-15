@@ -6,8 +6,23 @@
 import os
 import json
 import time
+import logging
+import sys
 from typing import Optional
 from uuid import uuid4
+
+# --- LE JOURNAL DE BORD (Logging) ---
+
+# On configure le format : Date | Niveau (INFO/ERROR) | Message
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    handlers=[
+        logging.StreamHandler(sys.stdout) # On écrit dans la console de manière propre
+    ]
+)
+
+logger = logging.getLogger("adeo-diy-api")
 
 # --- LOAD ENVIRONMENT VARIABLES (MUST BE FIRST) ---
 from dotenv import load_dotenv
@@ -15,7 +30,8 @@ load_dotenv()
 
 # --- IMPORTS FASTAPI & PYDANTIC ---
 from fastapi import FastAPI, Request
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 # --- IMPORT DU GRAPH LANGGRAPH ---
@@ -73,6 +89,30 @@ app = FastAPI(
     docs_url="/docs"
 )
 
+# --- SÉCURITÉ (Le Pass pour les invités) ---
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # En production, on remplacera "*" par l'adresse précise du Front-end
+    allow_credentials=True,
+    allow_methods=["*"], # On autorise tous les types de demandes (GET, POST, etc.)
+    allow_headers=["*"],
+)
+
+
+# ============================================================================
+# LE FILET DE SÉCURITÉ (Global Exception Handler)
+# ============================================================================
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """Le filet de sécurité qui attrape toutes les chutes."""
+    logger.error(f"💥 Erreur critique détectée : {str(exc)}", exc_info=True)
+    return JSONResponse(
+        status_code=500,
+        content={"message": "Désolé, notre expert DIY a glissé sur un outil. Nos équipes sont prévenues !"},
+    )
+
 
 # ============================================================================
 # MIDDLEWARE DE MONITORING
@@ -85,7 +125,7 @@ async def add_process_time_header(request: Request, call_next):
     response = await call_next(request)
     process_time = time.time() - start_time
     response.headers["X-Process-Time"] = str(process_time)
-    print(f"[{request.method} {request.url.path}] ⏱️ Traité en {process_time:.4f}s")
+    logger.info(f"[{request.method} {request.url.path}] ⏱️ Traité en {process_time:.4f}s")
     return response
 
 
@@ -139,7 +179,7 @@ async def chat_endpoint(request: ChatRequest):
 
     except Exception as e:
         error_msg = f"Erreur lors du traitement : {str(e)}"
-        print(f"❌ ERREUR : {error_msg}")
+        logger.error(error_msg)
         return ChatResponse(
             response="L'expert DIY rencontre un problème. Veuillez réessayer."
         )
@@ -174,12 +214,12 @@ async def chat_stream_endpoint(request: ChatRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    print("\n" + "="*60)
-    print("🚀 Lancement de l'API ADEO DIY Assistant")
-    print("="*60)
-    print("📚 Documentation Swagger : http://localhost:8000/docs")
-    print("🔍 Santé du service : http://localhost:8000/health")
-    print("="*60 + "\n")
+    logger.info("="*60)
+    logger.info("🚀 Lancement de l'API ADEO DIY Assistant")
+    logger.info("="*60)
+    logger.info("📚 Documentation Swagger : http://localhost:8000/docs")
+    logger.info("🔍 Santé du service : http://localhost:8000/health")
+    logger.info("="*60 + "\n")
     
     uvicorn.run(
         app,
