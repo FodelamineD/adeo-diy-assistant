@@ -1,3 +1,9 @@
+import os
+from dotenv import load_dotenv
+
+# Charger les variables d'environnement depuis .env AVANT tout import
+load_dotenv()
+
 from typing import Optional
 from uuid import uuid4
 from pydantic import BaseModel, Field

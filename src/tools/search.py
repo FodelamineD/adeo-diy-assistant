@@ -3,8 +3,16 @@ from langchain_community.vectorstores import FAISS
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.tools import tool
 
+# Lazy loading du retriever (créé seulement à la première utilisation)
+_retriever_cache = None
+
 def _initialize_vector_store():
     """Initialise la base de données vectorielle à partir du fichier texte."""
+    global _retriever_cache
+    
+    if _retriever_cache is not None:
+        return _retriever_cache
+    
     path = "data/guide_terrasse.txt"
     
     with open(path, "r", encoding="utf-8") as f:
@@ -17,10 +25,8 @@ def _initialize_vector_store():
     # Création du store (en mémoire pour ce sprint)
     embeddings = OpenAIEmbeddings()
     vectorstore = FAISS.from_documents(docs, embeddings)
-    return vectorstore.as_retriever()
-
-# Initialisation du moteur de recherche
-retriever = _initialize_vector_store()
+    _retriever_cache = vectorstore.as_retriever()
+    return _retriever_cache
 
 @tool
 def search_technical_guide(query: str) -> str:
@@ -28,6 +34,7 @@ def search_technical_guide(query: str) -> str:
     Recherche des conseils techniques dans le guide de construction (normes, entraxes, méthodes).
     Utile quand l'utilisateur pose une question sur 'comment' construire.
     """
+    retriever = _initialize_vector_store()
     docs = retriever.invoke(query)
     
     # Gestion du cas où aucun document n'est trouvé
