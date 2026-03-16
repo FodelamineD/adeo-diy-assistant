@@ -43,4 +43,4 @@ Dans la version actuelle, une latence supérieure à 30 secondes a été identif
 
 ---
 
-**Lamine Diakhaby** *Focus sur l'industrialisation et la fiabilité des systèmes.* *Recherche d'alternance ML Engineer - Septembre 2026*
+
