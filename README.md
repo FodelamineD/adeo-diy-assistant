@@ -1,6 +1,6 @@
 # 🛠️ ADEO DIY Assistant 
 
-> **Note** Ce projet n'est pas une solution commerciale finale, mais un **laboratoire d'apprentissage**. L'objectif central était de maîtriser le cycle de vie complet du MLOps en intégrant des briques technologiques complexes dans une architecture industrialisée.
+>  Ce projet n'est pas une solution commerciale finale, mais un **laboratoire d'apprentissage**. L'objectif central était de maîtriser le cycle de vie complet du MLOps en intégrant des briques technologiques complexes dans une architecture industrialisée.
 
 ---
 
