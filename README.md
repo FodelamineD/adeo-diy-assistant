@@ -1,6 +1,6 @@
-# 🛠️ ADEO DIY Assistant - Apprendre par l'Ingénierie ML
+# 🛠️ ADEO DIY Assistant 
 
-> **Note de l'auteur :** Ce projet n'est pas une solution commerciale finale, mais un **laboratoire d'apprentissage**. L'objectif central était de maîtriser le cycle de vie complet du MLOps en intégrant des briques technologiques complexes dans une architecture industrialisée.
+> **Note** Ce projet n'est pas une solution commerciale finale, mais un **laboratoire d'apprentissage**. L'objectif central était de maîtriser le cycle de vie complet du MLOps en intégrant des briques technologiques complexes dans une architecture industrialisée.
 
 ---
 
