@@ -1,65 +1,46 @@
-# ADEO DIY Assistant - Wood Deck Planner 🛠️
+# 🛠️ ADEO DIY Assistant - Apprendre par l'Ingénierie ML
 
-> **De l'expérimentation à l'industrialisation.**
-> [cite_start]Projet de démonstration conçu pour la Squad AI Factory d'ADEO, illustrant la transformation de concepts académiques en solutions robustes et industrialisées. [cite: 6]
-
----
-
-## 🎯 Vision Métier
-Le **DIY Assistant** est un agent intelligent qui accompagne les clients dans la planification de projets complexes (ex: terrasse en bois). Il ne se contente pas de répondre à des questions ; il **raisonne** en croisant des sources techniques (RAG) et des données opérationnelles (Stocks/Prix) pour garantir la faisabilité du projet.
-
-### Pourquoi ce projet ?
-* **Alignement Retail :** Répond à un besoin critique de conseil expert à l'échelle.
-* **Architecture Agnostique :** La matrice technique est convertible pour n'importe quel rayon d'ADEO (Cuisine, Énergie, Sanitaire).
+> **Note de l'auteur :** Ce projet n'est pas une solution commerciale finale, mais un **laboratoire d'apprentissage**. L'objectif central était de maîtriser le cycle de vie complet du MLOps en intégrant des briques technologiques complexes dans une architecture industrialisée.
 
 ---
 
-## 🛠️ ML Toolbox (Stack Technique)
-Priorisation de la **densité de signal** et réduction du bruit informationnel pour une efficacité maximale. [cite: 2025-12-18]
-
-* **Agentic Framework :** `LangGraph` (StateGraph) pour une orchestration déterministe.
-* **MLOps :** `ZenML` pour la gestion des pipelines et le versioning des artefacts.
-* **Serving :** `FastAPI` (API asynchrone haute performance).
-* **Infrastructure :** `Docker` (Conteneurisation) et `Terraform` (Infrastructure as Code).
-* **Intelligence :** `OpenAI` via des stratégies de **Tool-Calling** avancées.
+## 🎯 Vision du Projet
+L'objectif est de démontrer ma capacité à assembler des composants de pointe pour répondre à un besoin métier concret (planification de terrasse DIY). Le focus est mis sur la **structure**, la **modularité** et la **densité de signal technique** plutôt que sur la simple génération de texte.
 
 ---
 
-## 🏗️ Architecture du Projet
-Organisation modulaire alignée sur les standards de production :
+## 🏗️ L'Architecture "Factory" (Les Briques)
+Chaque pièce du puzzle a été choisie pour simuler l'environnement de l'**AI Factory d'ADEO** :
 
-```text
-adeo-diy-assistant/
-├── data/               # Sources de connaissances (Guides de pose)
-├── src/                # Cœur industriel
-│   ├── agents/         # Logique du graphe de décision (LangGraph)
-│   ├── tools/          # Outils métiers (Stock, Calculateurs, RAG)
-│   └── main.py         # Point d'entrée pour les tests
-├── infra/              # Provisionnement (Terraform, Docker)
-└── pipelines/          # Pipelines d'orchestration (ZenML)
-```
-##  🚀 Installation & Lancement (Sprint 1)
-1) Setup :
- ```text
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
- ```
-2) Configuration :
- ```text
-Ajouter votre OPENAI_API_KEY dans un fichier .env.
- ```
-3) Exécution :
- ```text
-python src/main.py
- ```
+* **Raisonnement (Le Chef) :** `LangGraph` pour créer un agent capable de prendre des décisions logiques et déterministes.
+* **Données (La Recette) :** `RAG` (Retrieval Augmented Generation) avec FAISS pour ancrer les réponses dans des guides techniques réels et éviter les hallucinations.
+* **Serving (Le Guichet) :** `FastAPI` avec support SSE (Streaming) pour transformer l'IA en un service web asynchrone.
+* **Standardisation (Le Container) :** `Docker` (Multi-stage build) pour garantir un environnement de production reproductible.
+* **Infrastructure (Le Plan) :** `Terraform` pour définir les ressources Cloud (AWS/GCP) via le code (IaC).
+* **Orchestration (La Chaîne) :** `ZenML` pour automatiser les pipelines de données et garantir la traçabilité.
 
-📈 Roadmap & Méthodologie
+---
 
-Développement piloté par la méthodologie Agile/BMAD avec validation par étapes.
+## 🚦 Diagnostic Technique : Le Challenge du "Timeout"
 
-[x] Sprint 1 (The Brain) : Moteur de raisonnement et Tool-Calling.
+Dans la version actuelle, une latence supérieure à 30 secondes a été identifiée lors de certaines requêtes complexes (voir illustration ci-dessous). 
 
-[x] Sprint 2 (The Factory) : Pipeline ZenML et API de production FastAPI.
+> **Diagnostic :**
+> Ce délai n'est pas une erreur de code, mais un défi classique de production ML lié à la profondeur du graphe de décision. L'agent doit effectuer plusieurs cycles de "Réflexion -> Recherche RAG -> Validation", ce qui impacte le temps de réponse total.
 
-[x] Sprint 3 (The Ship) : Conteneurisation et déploiement via Terraform.
+### **Pistes de résolution (Optimisation)**
+
+* **Streaming SSE :** Déjà initié pour améliorer l'expérience utilisateur en affichant les tokens en temps réel.
+* **Asynchronisme :** Implémentation de workers (Celery/Redis) pour les calculs de stock les plus lourds.
+* **Optimisation du RAG :** Passage à une recherche vectorielle hybride pour réduire le temps d'extraction.
+
+---
+
+## 🚀 Ce que ce projet prouve
+* **Capacité d'intégration :** Faire communiquer une UI Streamlit, une API FastAPI et un agent LangGraph de manière fluide.
+* **Posture MLOps :** Prioriser la robustesse (CI/CD via GitHub Actions, Docker) sur la simple performance brute du modèle.
+* **Sécurité & Hygiène :** Gestion stricte des secrets (clés API) via des fichiers `.env` et `.gitignore` pour protéger les assets de l'entreprise.
+
+---
+
+**Lamine Diakhaby** *Focus sur l'industrialisation et la fiabilité des systèmes.* *Recherche d'alternance ML Engineer - Septembre 2026*
