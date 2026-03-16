@@ -60,6 +60,6 @@ Développement piloté par la méthodologie Agile/BMAD avec validation par étap
 
 [x] Sprint 1 (The Brain) : Moteur de raisonnement et Tool-Calling.
 
-[ ] Sprint 2 (The Factory) : Pipeline ZenML et API de production FastAPI.
+[x] Sprint 2 (The Factory) : Pipeline ZenML et API de production FastAPI.
 
-[ ] Sprint 3 (The Ship) : Conteneurisation et déploiement via Terraform.
+[x] Sprint 3 (The Ship) : Conteneurisation et déploiement via Terraform.
