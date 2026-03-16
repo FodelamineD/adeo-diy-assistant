@@ -25,6 +25,10 @@ Chaque pièce du puzzle a été choisie pour simuler l'environnement de l'**AI F
 
 Dans la version actuelle, une latence supérieure à 30 secondes a été identifiée lors de certaines requêtes complexes (voir illustration ci-dessous). 
 
+### Interface Utilisateur Actuelle
+
+![ADEO DIY Assistant - Interface](docs/images/Adeo_diy.png)
+
 > **Diagnostic :**
 > Ce délai n'est pas une erreur de code, mais un défi classique de production ML lié à la profondeur du graphe de décision. L'agent doit effectuer plusieurs cycles de "Réflexion -> Recherche RAG -> Validation", ce qui impacte le temps de réponse total.
 
