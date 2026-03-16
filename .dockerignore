@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.coverage
+.tox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.vscode
+*.sublime-workspace
+*.sublime-project
+
+# OS
+.DS_Store
+.Thumbs.db
+.env
+.env.local
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+circle.yml
+travis.yml
+
+# Documentation
+*.md
+docs/
+
+# Test files
+test_*.py
+*_test.py
+pytest.ini
+
+# Other
+.variables.tf
+terraform/
+.terraform/
+*.tfstate*
